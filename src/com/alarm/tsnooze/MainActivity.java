@@ -74,24 +74,6 @@ public class MainActivity extends Activity implements LocationListener{
                                point.toString()));  
                   lat = point.latitude;
                   lon = point.longitude;
-                 
-                  if (lt != 0 && ln != 0) {
-                	  
-                	  double result = Math.sqrt(Math.abs(lt*lt - lat*lat)) + Math.sqrt(Math.abs(ln*ln - lon*lon));
-                	  
-                	  if (result <=41.46)
-                	  {
-                	
-						Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-						 // Vibrate for 500 milliseconds
-						 v.vibrate(1000);
-						 
-						// String hello = "Destination here";
-						 
-						// hello.notifyAll();
-					
-                	  }
-                  }
                   
                   CircleOptions circleOptions = new CircleOptions()
                   .center( new LatLng(lat, lon) )
@@ -116,64 +98,7 @@ public class MainActivity extends Activity implements LocationListener{
         
         
     }
-
-    public class GeofenceReceiver extends BroadcastReceiver
-    {
-           public Context context;
-           Intent broadcastIntent = new Intent();
-
-            @Override
-        public void onReceive(Context context, Intent intent) {
-
-             // TODO Auto-generated method stub
-
-               this.context = context;
-                broadcastIntent.addCategory("com.example.CATEGORY_LOCATION_SERVICES");        
-                String action= intent.getAction();
-
-                 if (LocationClient.hasError(intent)) {
-                         //do something
-                	 System.out.println("hello");
-                  } 
-                 else 
-                  {
-                 handleEnterExit(intent);
-                   }
-             }
-
-           private void handleEnterExit(Intent intent) {
-
-               int transition = LocationClient.getGeofenceTransition(intent);
-
-                System.out.println("transition" +transition); //getting -1 over here
-                if ((transition == Geofence.GEOFENCE_TRANSITION_ENTER)
-                  || (transition == Geofence.GEOFENCE_TRANSITION_EXIT)) {
-
-                	AlertDialog.Builder builder = new AlertDialog.Builder(null);
-                    builder
-                    .setTitle("Reaching Destination")
-                    .setMessage("Will arrive in a few minutes")
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() 
-                    {
-                        public void onClick(DialogInterface dialog, int which) 
-                        {       
-                               //do some thing here which you need
-                    }
-                    });             
-                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() 
-                    {
-                        public void onClick(DialogInterface dialog, int which) 
-                        {   
-                        dialog.dismiss();           
-                        }
-                    });         
-                AlertDialog alert = builder.create();
-                        alert.show();
-               }   
-
-      } 
-    }
+                  
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
